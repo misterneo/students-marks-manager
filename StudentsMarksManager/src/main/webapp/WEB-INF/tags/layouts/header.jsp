@@ -9,7 +9,7 @@
     >
       <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
     </button>
-    <a class="navbar-brand" href="#"
+    <a class="navbar-brand" href="/"
       ><i class="fa fa-graduation-cap"></i>
 
       Students Marks Manager</a
