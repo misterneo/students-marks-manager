@@ -7,6 +7,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title}</title>
+
+
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Regular.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Semibold.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Bold.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Black.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-display/Charlie_Display-Semibold.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-display/Charlie_Display-Black.woff2" as="font" type="font/woff2" crossorigin="">
+
+
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 	
@@ -22,6 +33,8 @@
 </head>
 
 <body>
+<div class="bg-pattern">
+</div>
 	<%@include file="layouts/header.jsp"%>
 	<div id="wrapper">
 

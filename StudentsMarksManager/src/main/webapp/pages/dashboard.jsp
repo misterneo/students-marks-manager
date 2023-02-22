@@ -3,15 +3,14 @@ tagdir="/WEB-INF/tags" %>
 
 <t:main-layout>
   <jsp:attribute name="content">
-    <h1>Welcome to Students Marks Manager</h1>
+    <h1 style="margin-bottom: 50px; margin-top: 30px; font-weight: bold">Welcome back professor!</h1>
 
-    <p style="margin-bottom: 30px">
-      This is a web-based platform designed to help teachers manage student
-      marks. With our easy-to-use system, you can easily input, track and
-      analyze student grades, allowing you to better understand each student's
-      academic progress. The Student Marks Manager provides a simple and intuitive user
-      interface that makes it easy to manage student information, and grading
-      criteria.
+    
+    <h2 style="margin-bottom: 20px; font-weight: 500">Dashboard</h2>
+    
+    <p style="margin-bottom: 20px; max-width: 800px">
+    	This is an overview of the total number of students you added, subjects you entered in the platform along with the overall average of all the student's marks
+    	 
     </p>
 
     <div class="row">
