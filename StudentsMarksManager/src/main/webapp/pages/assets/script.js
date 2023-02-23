@@ -53,6 +53,59 @@ function initMenu() {
     }
   });
 }
+
+function deleteStudent(id) {
+  $.ajax({
+    url: "students?id=" + id,
+    type: "DELETE",
+    success: function (result) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "The student has been deleted",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      $("#should_delete_student_" + id).remove();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid inputs!",
+        confirmButtonColor: "#337ab7",
+      });
+    },
+  });
+}
+
+function deleteSubject(id) {
+  $.ajax({
+    url: "subjects?id=" + id,
+    type: "DELETE",
+    success: function (result) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "The subject has been deleted",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      $("#should_delete_subject_" + id).remove();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid inputs!",
+        confirmButtonColor: "#337ab7",
+      });
+    },
+  });
+}
+
 $(document).ready(function () {
   initMenu();
 

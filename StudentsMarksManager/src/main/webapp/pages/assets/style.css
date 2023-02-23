@@ -85,8 +85,15 @@ body {
 	text-align: center;
 }
 
-#delete-student-btn {
+.delete-student-btn {
 	background: transparent;
+	color:red;
+	font-size: 1.6rem;
+}
+
+.delete-student-btn:hover{
+	cursor: pointer;
+	color: rgb(255, 84, 111);
 }
 
 .mark_empty {

@@ -66,4 +66,28 @@ public class StudentsServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String id = request.getParameter("id");
+
+		boolean res = dao.deleteStudent(Integer.parseInt(id));
+
+		String jsonResponse = "{\"message\": \"Something went wrong!\"}";
+
+		if (res) {
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.setContentType("application/json");
+			jsonResponse = "{\"message\": \"Resource deleted successfully\"}";
+		} else {
+			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+			response.setContentType("application/json");
+		}
+
+		response.getWriter().write(jsonResponse);
+	}
+
 }

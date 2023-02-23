@@ -27,6 +27,9 @@ public class IDaoImpl implements IDao {
 			+ "    ROUND(SUM(marks.score * subjects.coefficient) / SUM(subjects.coefficient), 2) AS overall_avg_score\n"
 			+ "FROM\n" + "    marks\n" + "    JOIN subjects ON marks.subject_id = subjects.id;";
 
+	private static final String DELETE_STUDENT_SQL = "DELETE FROM students WHERE id = ?";
+	private static final String DELETE_SUBJECT_SQL = "DELETE FROM subjects WHERE id = ?";
+
 	@Override
 	public boolean addStudent(Student student) {
 
@@ -284,6 +287,43 @@ public class IDaoImpl implements IDao {
 		}
 
 		return summary;
+	}
+
+	@Override
+	public boolean deleteStudent(int student_id) {
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(DELETE_STUDENT_SQL)) {
+
+			ps.setInt(1, student_id);
+
+			int rowInserted = ps.executeUpdate();
+
+			return rowInserted > 0;
+
+		} catch (Exception e1) {
+
+			e1.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteSubject(int subject_id) {
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(DELETE_SUBJECT_SQL)) {
+
+			ps.setInt(1, subject_id);
+
+			int rowInserted = ps.executeUpdate();
+
+			return rowInserted > 0;
+
+		} catch (Exception e1) {
+
+			e1.printStackTrace();
+			return false;
+		}
+
 	}
 
 }

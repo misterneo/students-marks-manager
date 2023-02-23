@@ -31,20 +31,12 @@
               </thead>
               <tbody>
                 <c:forEach var="subject" items="${subjects}">
-                  <tr>
+                  <tr id="should_delete_subject_${subject.getId()}">
                     <td>${subject.getId()}</td>
                     <td class="text-capitalize">${subject.getName()}</td>
                     <td>${subject.getCoefficient()}</td>
-                    <td style="text-align:center">
-                      <form autocomplete="off" class="col" method="post" action="StudentController">
-                        <input type="hidden" name="id" value="${subject.getId()}" />
-
-                        <button id="delete-student-btn" data-toggle="tooltip" data-placement="bottom" title="Delete"
-                          type="submit" class="btn btn-sm">
-                          <i class="bi bi-trash" style="color: red"></i>
-                        </button>
-                      </form>
-
+                    <td style="text-align: center">
+                      <i onclick="deleteSubject('${subject.getId()}')" class="bi bi-trash delete-student-btn"></i>
                     </td>
                   </tr>
                 </c:forEach>

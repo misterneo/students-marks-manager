@@ -20,4 +20,8 @@ public interface IDao {
 	public List<Subject> getAllSubjects();
 
 	public Map<String, String> getDataSummary();
+
+	public boolean deleteStudent(int student_id);
+
+	public boolean deleteSubject(int subject_id);
 }
