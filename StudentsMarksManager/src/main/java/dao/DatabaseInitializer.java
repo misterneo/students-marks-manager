@@ -24,8 +24,10 @@ public class DatabaseInitializer {
 				s2.executeUpdate("CREATE TABLE marks (\n" + "  id INT NOT NULL AUTO_INCREMENT,\n"
 						+ "  student_id INT NOT NULL,\n" + "  subject_id INT NOT NULL,\n" + "  score DOUBLE NOT NULL,\n"
 						+ "	 CONSTRAINT unique_mark UNIQUE (student_id, subject_id)," + "  PRIMARY KEY (id),\n"
-						+ "  FOREIGN KEY (student_id) REFERENCES students(id), \n"
-						+ "  FOREIGN KEY (subject_id) REFERENCES subjects(id)\n" + ");");
+						+ "  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE\n"
+						+ "       ON UPDATE CASCADE, \n"
+						+ "  FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE\n"
+						+ "       ON UPDATE CASCADE\n" + ");");
 				s2.close();
 
 				System.out.println("Database initialized successfully.");
