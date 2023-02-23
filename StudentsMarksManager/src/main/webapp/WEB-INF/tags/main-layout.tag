@@ -8,16 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title}</title>
 
-
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Regular.woff2" as="font" type="font/woff2" crossorigin="">
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Semibold.woff2" as="font" type="font/woff2" crossorigin="">
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Bold.woff2" as="font" type="font/woff2" crossorigin="">
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-text/Charlie_Text-Black.woff2" as="font" type="font/woff2" crossorigin="">
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-display/Charlie_Display-Semibold.woff2" as="font" type="font/woff2" crossorigin="">
-<link rel="preload" href="https://wac-cdn.atlassian.com/static/master/3939/assets/build/fonts/charlie-sans/charlie-display/Charlie_Display-Black.woff2" as="font" type="font/woff2" crossorigin="">
-
-
-
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 	
@@ -56,6 +46,9 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/pages/assets/script.js"></script>

@@ -59,6 +59,7 @@
               <div class="modal-content">
                 <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between;">
                   <h5 class="modal-title" id="exampleModalLabel"> Add new subject</h5>
+                  <input class="hasError" type="hidden" value="${error}">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -67,12 +68,12 @@
                   <form id="addSubjectForm" method="post" action="subjects">
                     <div class="form-group">
                       <label for="name" class="col-form-label">Subject Name:</label>
-                      <input name="name" type="text" class="form-control" id="name" required>
+                      <input name="name" type="text" class="form-control" id="name">
                     </div>
 
                     <div class="form-group">
                       <label for="coef" class="col-form-label">Coefficient:</label>
-                      <input name="coef" type="number" class="form-control" id="coef" required>
+                      <input name="coef" type="number" class="form-control" id="coef">
                     </div>
 
                   </form>

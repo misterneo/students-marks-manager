@@ -57,6 +57,18 @@ $(document).ready(function () {
   initMenu();
 
   try {
+    var error = $(".hasError")[0];
+    if (error.value == "badInputs") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid inputs!",
+        confirmButtonColor: "#337ab7",
+      });
+    }
+  } catch (e) {}
+
+  try {
     var th = $(".marksTH");
 
     for (var i = 0; i < th.length; i++) {

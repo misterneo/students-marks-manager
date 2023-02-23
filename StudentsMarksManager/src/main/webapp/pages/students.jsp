@@ -64,6 +64,7 @@
               <div class="modal-content">
                 <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between;">
                   <h5 class="modal-title" id="exampleModalLabel"> Add new student</h5>
+                  <input class="hasError" type="hidden" value="${error}">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

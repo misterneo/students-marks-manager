@@ -56,9 +56,13 @@
 							<div class="modal-content">
 								<div class="modal-header"
 									style="display: flex; align-items: center; justify-content: space-between;">
+									<div>
 									<h5 class="modal-title" id="exampleModalLabel"> Editing marks for <span
 											id="edit-fn"></span> <span id="edit-ln"></span>
 									</h5>
+									<input class="hasError" type="hidden" value="${error}">
+									</div>
+									
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -69,7 +73,7 @@
 
 											<div class="form-group">
 												<label for="${col}" class="col-form-label">${col}:</label>
-												<input name="${col}" type="number" class="form-control markInput"
+												<input min="0" max="20" name="${col}" type="number" class="form-control markInput"
 													id="${col}">
 											</div>
 

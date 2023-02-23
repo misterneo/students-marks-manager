@@ -39,7 +39,7 @@ public class SubjctsServlet extends HttpServlet {
 		request.setAttribute("title", "Subjects");
 
 		List<Subject> subjects = dao.getAllSubjects();
-//
+
 		request.setAttribute("subjects", subjects);
 
 		request.getRequestDispatcher("pages/subjects.jsp").forward(request, response);
@@ -53,14 +53,20 @@ public class SubjctsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
-		int coef = Integer.parseInt(request.getParameter("coef"));
+		int coef = -1;
+		try {
+			coef = Integer.parseInt(request.getParameter("coef"));
+		} catch (Exception e) {
+
+		}
 
 		if (name != "" && coef > 0) {
 			Subject newSubject = new Subject(name, coef);
 			dao.addSubject(newSubject);
+		} else {
+			request.setAttribute("error", "badInputs");
 		}
 
-		System.out.println("Subject Added.");
 		doGet(request, response);
 	}
 

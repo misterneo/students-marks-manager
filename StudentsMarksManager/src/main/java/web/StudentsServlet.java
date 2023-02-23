@@ -59,9 +59,9 @@ public class StudentsServlet extends HttpServlet {
 		if (fn != "" && ln != "" && email != "") {
 			Student newStudent = new Student(fn, ln, email);
 			dao.addStudent(newStudent);
+		} else {
+			request.setAttribute("error", "badInputs");
 		}
-
-		System.out.println("Student Added.");
 
 		doGet(request, response);
 	}

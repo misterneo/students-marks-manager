@@ -76,13 +76,18 @@ public class MarksServlet extends HttpServlet {
 			}
 			float score = -1;
 			if (!request.getParameter(q).isEmpty()) {
-				score = Float.parseFloat(request.getParameter(q));
-			}
+				try {
+					score = Float.parseFloat(request.getParameter(q));
+				} catch (Exception e) {
+				}
 
-			int subjectId = Integer.parseInt(q.substring(0, q.indexOf(" |")));
+				int subjectId = Integer.parseInt(q.substring(0, q.indexOf(" |")));
 
-			if (score != -1) {
-				dao.addMark(new Mark(studentId, subjectId, score));
+				if (score != -1 && score >= 0 && score <= 20) {
+					dao.addMark(new Mark(studentId, subjectId, score));
+				} else {
+					request.setAttribute("error", "badInputs");
+				}
 			}
 
 		}
