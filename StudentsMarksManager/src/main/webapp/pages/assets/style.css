@@ -6,6 +6,17 @@ body {
 	font-family: 'Lato', sans-serif;
 }
 
+#sidebar-wrapper > span{
+	color: white;
+    position: absolute;
+    bottom: 8dvh;
+    text-align: center;
+    width: 100%;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 1.2rem;
+}
+
 .bg-pattern {
 	background-image: linear-gradient(rgb(51, 122, 183) 1px, transparent 1px),
 		linear-gradient(90deg, rgb(51, 122, 183) 1px, transparent 1px),
