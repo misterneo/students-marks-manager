@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.IDaoImpl;
-import dao.Student;
+import models.Student;
 
 /**
  * Servlet implementation class StudentsServlet

@@ -1,4 +1,4 @@
-package dao;
+package models;
 
 public class Subject {
 	private int id;

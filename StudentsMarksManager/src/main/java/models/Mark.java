@@ -1,4 +1,4 @@
-package dao;
+package models;
 
 public class Mark {
 	private int id, student_id, subject_id;

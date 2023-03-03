@@ -10,28 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Mark;
+import models.Student;
+import models.Subject;
+
 public class IDaoImpl implements IDao {
-
-	private static final String INSERT_STUDENT_SQL = "INSERT INTO students (first_name, last_name, email) VALUES (?, ?, ?)";
-	private static final String INSERT_SUBJECT_SQL = "INSERT INTO subjects (name, coefficient) VALUES (?, ?)";
-	private static final String INSERT_MARK_SQL = "INSERT INTO marks (student_id, subject_id, score) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE score = VALUES(score)";
-	private static final String SELECT_MARKS_BY_STUDENT_ID_SQL = "SELECT marks.score, subjects.name, subjects.coefficient, subjects.id, students.first_name, students.last_name, students.email FROM marks "
-			+ "JOIN subjects ON marks.subject_id = subjects.id " + "JOIN students ON marks.student_id = students.id "
-			+ "WHERE marks.student_id = ?";
-	private static final String SELECT_ALL_STUDENTS_SQL = "SELECT * from students";
-	private static final String SELECT_ALL_SUBJECTS_SQL = "SELECT * from subjects";
-
-	private static final String DATA_SUMMARY_SQL = "SELECT\n"
-			+ "    (SELECT COUNT(*) FROM students) AS total_students,\n"
-			+ "    (SELECT COUNT(*) FROM subjects) AS total_subjects,\n"
-			+ "    ROUND(SUM(marks.score * subjects.coefficient) / SUM(subjects.coefficient), 2) AS overall_avg_score\n"
-			+ "FROM\n" + "    marks\n" + "    JOIN subjects ON marks.subject_id = subjects.id;";
-
-	private static final String DELETE_STUDENT_SQL = "DELETE FROM students WHERE id = ?";
-	private static final String DELETE_SUBJECT_SQL = "DELETE FROM subjects WHERE id = ?";
 
 	@Override
 	public boolean addStudent(Student student) {
+		String INSERT_STUDENT_SQL = "INSERT INTO students (first_name, last_name, email) VALUES (?, ?, ?)";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(INSERT_STUDENT_SQL)) {
@@ -53,6 +40,8 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public boolean addSubject(Subject subject) {
+		String INSERT_SUBJECT_SQL = "INSERT INTO subjects (name, coefficient) VALUES (?, ?)";
+
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(INSERT_SUBJECT_SQL)) {
 
@@ -73,6 +62,7 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public boolean addMark(Mark mark) {
+		String INSERT_MARK_SQL = "INSERT INTO marks (student_id, subject_id, score) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE score = VALUES(score)";
 
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(INSERT_MARK_SQL)) {
@@ -94,6 +84,8 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public List<Student> getAllStudents() {
+		String SELECT_ALL_STUDENTS_SQL = "SELECT * from students";
+
 		List<Student> students = new ArrayList<>();
 
 		try (Connection conn = DatabaseConnection.getConnection();
@@ -121,6 +113,8 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public List<Subject> getAllSubjects() {
+		String SELECT_ALL_SUBJECTS_SQL = "SELECT * from subjects";
+
 		List<Subject> subjects = new ArrayList<>();
 
 		try (Connection conn = DatabaseConnection.getConnection();
@@ -146,47 +140,6 @@ public class IDaoImpl implements IDao {
 	}
 
 	@Override
-	public ArrayList<Object> getStudentMarks(int student_id) {
-		List<Mark> marks = new ArrayList<>();
-		Student student = null;
-
-		ArrayList<Object> data = new ArrayList<>();
-
-		try (Connection conn = DatabaseConnection.getConnection();
-				PreparedStatement ps = conn.prepareStatement(SELECT_MARKS_BY_STUDENT_ID_SQL)) {
-			ps.setInt(1, student_id);
-
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					float score = rs.getFloat("score");
-					String subject_name = rs.getString("name");
-					int subject_coef = rs.getInt("coefficient");
-
-					if (student == null) {
-						String first_name = rs.getString("first_name");
-						String last_name = rs.getString("last_name");
-						String email = rs.getString("email");
-
-						student = new Student(first_name, last_name, email);
-					}
-
-					Subject subject = new Subject(subject_name, subject_coef);
-
-					marks.add(new Mark(subject, score));
-				}
-			}
-		} catch (Exception e1) {
-
-			e1.printStackTrace();
-		}
-
-		data.add(student);
-		data.add(marks);
-
-		return data;
-	}
-
-	@Override
 	public ArrayList<Object> getAllMarks() {
 		ArrayList<Object> res = new ArrayList<>();
 		List<List<String>> data = new ArrayList<>();
@@ -195,19 +148,21 @@ public class IDaoImpl implements IDao {
 		try {
 			Connection conn = DatabaseConnection.getConnection();
 
-			// Step 1: Get a list of distinct subject names and their coefficients
-			String getSubjectsQuery = "SELECT GROUP_CONCAT(DISTINCT CONCAT('MAX(CASE WHEN name = ''', name, ''' THEN score ELSE NULL END) AS `', CONCAT(id, ' | ', name, ' (x', coefficient, ')'), '`') ORDER BY name) AS subjectColumns FROM subjects";
+			String getSubjectsQuery = "SELECT GROUP_CONCAT(DISTINCT CONCAT('MAX(CASE WHEN name = ''', name, ''' THEN \n"
+					+ "score ELSE NULL END) AS `', CONCAT(id, ' | ', name, ' (x', coefficient, ')'), \n"
+					+ "'`') ORDER BY name) AS subjectColumns FROM subjects";
 			PreparedStatement getSubjectsStmt = conn.prepareStatement(getSubjectsQuery);
 			ResultSet subjectsResult = getSubjectsStmt.executeQuery();
 			subjectsResult.next();
 			String subjectColumns = subjectsResult.getString("subjectColumns");
 
-			// Step 2: Construct the dynamic pivot query
 			String query = String.format(
-					"SELECT students.id AS student_id, students.first_name, students.last_name, %s, ROUND(SUM(marks.score * subjects.coefficient) / SUM(subjects.coefficient), 2) AS avg_score FROM students LEFT JOIN marks ON students.id = marks.student_id LEFT JOIN subjects ON marks.subject_id = subjects.id GROUP BY students.id",
+					"SELECT students.id AS student_id, students.first_name, students.last_name, %s, \n"
+							+ "ROUND(SUM(marks.score * subjects.coefficient) / SUM(subjects.coefficient), 2) \n"
+							+ "AS avg_score FROM students LEFT JOIN marks ON students.id = marks.student_id \n"
+							+ "LEFT JOIN subjects ON marks.subject_id = subjects.id GROUP BY students.id",
 					subjectColumns);
 
-			// Step 3: Execute the dynamic query
 			Statement stmt = conn.createStatement();
 			ResultSet result = stmt.executeQuery(query);
 
@@ -217,7 +172,6 @@ public class IDaoImpl implements IDao {
 				columns.add(crsmd.getColumnName(i));
 			}
 
-			// Step 4: Process the result set
 			while (result.next()) {
 				String firstName = result.getString("first_name");
 				String lastName = result.getString("last_name");
@@ -234,7 +188,7 @@ public class IDaoImpl implements IDao {
 				int numColumns = rsmd.getColumnCount();
 				for (int i = 1; i <= numColumns; i++) {
 					String columnName = rsmd.getColumnName(i);
-					// Skip the columns that are not subject names
+
 					if (columnName.equals("id") || columnName.equals("first_name") || columnName.equals("last_name")
 							|| columnName.equals("email") || columnName.equals("avg_score")) {
 						continue;
@@ -265,6 +219,11 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public Map<String, String> getDataSummary() {
+		String DATA_SUMMARY_SQL = "SELECT\n" + "    (SELECT COUNT(*) FROM students) AS total_students,\n"
+				+ "    (SELECT COUNT(*) FROM subjects) AS total_subjects,\n"
+				+ "    ROUND(SUM(marks.score * subjects.coefficient) / SUM(subjects.coefficient), 2) AS overall_avg_score\n"
+				+ "FROM\n" + "    marks\n" + "    JOIN subjects ON marks.subject_id = subjects.id;";
+
 		Map<String, String> summary = new HashMap<>();
 
 		try (Connection conn = DatabaseConnection.getConnection();
@@ -291,6 +250,8 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public boolean deleteStudent(int student_id) {
+		String DELETE_STUDENT_SQL = "DELETE FROM students WHERE id = ?";
+
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(DELETE_STUDENT_SQL)) {
 
@@ -309,6 +270,8 @@ public class IDaoImpl implements IDao {
 
 	@Override
 	public boolean deleteSubject(int subject_id) {
+		String DELETE_SUBJECT_SQL = "DELETE FROM subjects WHERE id = ?";
+
 		try (Connection conn = DatabaseConnection.getConnection();
 				PreparedStatement ps = conn.prepareStatement(DELETE_SUBJECT_SQL)) {
 
