@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  db:
+    image: misterneo/mysql-smm
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  app:
+    depends_on:
+      - db
+    image: misterneo/app-smm
+    ports:
+      - "8888:8080"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
